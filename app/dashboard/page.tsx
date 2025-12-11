@@ -13,7 +13,7 @@ export default async function Page() {
     }
     const data= await getDashboardData("");
   return (
-    <div className="flex w-full h-screen overflow-hidden">
+    <div className="flex w-full h-screen overflow-hidden dark:bg-black">
       <Sidebar />
       <div className="flex flex-col w-full">
         <DashboardController 
