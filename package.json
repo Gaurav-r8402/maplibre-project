@@ -1,0 +1,53 @@
+{
+  "name": "maplibre-project",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "@auth/prisma-adapter": "^2.11.1",
+    "@mapbox/geojson-extent": "github:mapbox/geojson-extent",
+    "@prisma/client": "^5.22.0",
+    "@turf/turf": "^7.3.1",
+    "bcrypt": "^6.0.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "dotted-map": "^2.2.3",
+    "lucide-react": "^0.555.0",
+    "maplibre-gl": "^5.13.0",
+    "motion": "^12.23.25",
+    "next": "16.0.7",
+    "next-auth": "^4.24.13",
+    "next-themes": "^0.4.6",
+    "nodemailer": "^7.0.11",
+    "prisma": "^5.22.0",
+    "react": "19.2.0",
+    "react-animated-numbers": "^1.1.1",
+    "react-dom": "19.2.0",
+    "react-hot-toast": "^2.6.0",
+    "react-icons": "^5.5.0",
+    "recharts": "^3.5.0",
+    "tailwind-merge": "^3.4.0",
+    "tailwindcss-animate": "^1.0.7"
+  },
+  "devDependencies": {
+    "@mapbox/polylabel": "^1.0.2",
+    "@tailwindcss/postcss": "^4",
+    "@types/bcrypt": "^6.0.0",
+    "@types/node": "^20",
+    "@types/nodemailer": "^7.0.4",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "autoprefixer": "^10.4.22",
+    "baseline-browser-mapping": "^2.9.5",
+    "eslint": "^9",
+    "eslint-config-next": "16.0.5",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.18",
+    "typescript": "^5"
+  }
+}
