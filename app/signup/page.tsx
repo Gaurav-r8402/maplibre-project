@@ -8,12 +8,14 @@ import Link from "next/link";
 import googleImg from "@/public/google.png";
 import Image from "next/image";
 import toast from "react-hot-toast";
+import { Eye, EyeOff } from 'lucide-react';
 
 export default function SignUpPage() {
     const router = useRouter();
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [isVisible, setIsVisible] = useState(false);
 
     async function register(e: any) {
         e.preventDefault();
@@ -56,6 +58,9 @@ export default function SignUpPage() {
         }
 
     }
+    const toggleVisiblity=()=>{
+        setIsVisible(!isVisible);
+    }
 
     return (
         <div className="w-full h-screen flex flex-col lg:flex-row bg-white overflow-hidden dark:bg-black ">
@@ -95,13 +100,18 @@ export default function SignUpPage() {
                                 ></path>
                                 <path d="M22 6l-10 7L2 6"></path>
                             </svg>
-                            <input placeholder="Email" type="email" onChange={(e) => setEmail(e.target.value)} className="flex-1  focus:outline-none p-1 dark:bg-black dark:text-white" />
+                                <input placeholder="Email" type="email" onChange={(e) => setEmail(e.target.value)} className="flex-1  focus:outline-none p-1 dark:bg-black dark:text-white" />
                         </div>
                         <div className="shadow-sm flex gap-2 items-center bg-white dark:bg-black p-2 duration-300 border-2 border-gray-400 group delay-200 rounded-md">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-lock group-hover:rotate-[360deg] duration-300" viewBox="0 0 16 16">
                                 <path d="M8 0a4 4 0 0 1 4 4v2.05a2.5 2.5 0 0 1 2 2.45v5a2.5 2.5 0 0 1-2.5 2.5h-7A2.5 2.5 0 0 1 2 13.5v-5a2.5 2.5 0 0 1 2-2.45V4a4 4 0 0 1 4-4M4.5 7A1.5 1.5 0 0 0 3 8.5v5A1.5 1.5 0 0 0 4.5 15h7a1.5 1.5 0 0 0 1.5-1.5v-5A1.5 1.5 0 0 0 11.5 7zM8 1a3 3 0 0 0-3 3v2h6V4a3 3 0 0 0-3-3" />
                             </svg>
-                            <input placeholder="password" type="password" onChange={(e) => setPassword(e.target.value)} className="flex-1  focus:outline-none p-1 dark:bg-black dark:text-white" />
+                            <div className="relative flex flex-1 items-center">
+                                <input placeholder="password" type={isVisible ? 'text' : 'password'} onChange={(e) => setPassword(e.target.value)} className="flex-1  focus:outline-none p-1 dark:bg-black dark:text-white" />
+                                <button type="button" onClick={toggleVisiblity} className="absolute right-2 cursor-pointer bg-none border-0 p-0" aria-label={isVisible ? "Hide Password" : "Show Password"}>
+                                    {isVisible ? <Eye /> : <EyeOff />}
+                                </button>
+                            </div>
                         </div>
 
                         <div className="p-2 pl-4 flex justify-between">

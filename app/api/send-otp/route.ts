@@ -1,9 +1,9 @@
 import { prisma } from "@/lib/prisma";
-import { NextResponse } from "next/server";
+import { NextRequest,NextResponse } from "next/server";
 import { sendEmail } from "@/lib/mailer";
 
 
-export async function POST(req:Response) {
+export async function POST(req:NextRequest) {
     try {
         const { email }=await req.json();
 

@@ -1,24 +1,25 @@
-"use client"
+"use client";
 
-import AnimatedNumbers from "react-animated-numbers"
-export default function AnimatedNumber({
-    value,
-}: {
-    value: number
-}) {
-    return (
-        <div className="text-[#16476A] dark:text-white font-bold text-[45px]">
-            <AnimatedNumbers
-                useThousandsSeparator
-                animateToNumber={value}
-                transitions={(index) => ({
-                    type: "spring",
-                    damping: 20,
-                    stiffness: 120,
-                    mass: 0.2,
-                })}
-            />
-        </div>
+import { motion, useMotionValue, useTransform, animate } from "framer-motion";
+import { useEffect } from "react";
 
-    );
+export default function AnimatedNumber({ value }: { value: number }) {
+  const count = useMotionValue(0);
+
+  const formatted = useTransform(count, latest =>
+    Math.floor(latest).toLocaleString("en-IN")
+  );
+
+  useEffect(() => {
+    animate(count, value, {
+      duration: 1.2,
+      ease: "easeOut"
+    });
+  }, [value]);
+
+  return (
+    <motion.div className="text-[#16476A] dark:text-white font-bold text-[45px]">
+      <motion.span>{formatted}</motion.span>
+    </motion.div>
+  );
 }

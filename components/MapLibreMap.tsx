@@ -11,18 +11,24 @@ import * as turf from "@turf/turf";
 import polylabel from "@mapbox/polylabel";
 
 async function loadBlueStyle() {
-    const res = await fetch("https://tiles.latlong.in/blue_essence.json");
+    const res = await fetch("https://tiles-v2.latlong.in/blue_essence.json");
     const style = await res.json();
 
-    style.sprite = "";
+    const INVALID_SOURCE_LAYERS = [
+        "states",
+        "india_boundary",
+        "world_boundary",
+        "aa_6",
+        "aa_7",
+        "aa_8"
+    ];
 
-    if (style.sources?.openmaptiles) {
-        delete style.sources.openmaptiles;
-    }
+    style.layers = style.layers.filter((layer: any) => {
+        if (layer.source !== "openmaptiles") return true;
 
-    style.layers = style.layers.filter(
-        (layer: any) => layer.source !== "openmaptiles"
-    );
+        const srcLayer = layer["source-layer"];
+        return !INVALID_SOURCE_LAYERS.includes(srcLayer);
+    });
 
     return style;
 }
@@ -32,7 +38,8 @@ export default function IndiaMap({
     searchState,
     triggerSearch,
     clearTrigger,
-    serverData
+    serverData,
+    onMapLoaded
 }: {
     onStateClick?: (data: any) => void;
     searchState?: string;
@@ -43,6 +50,7 @@ export default function IndiaMap({
         states: any,
         capital: any
     };
+    onMapLoaded?: () => void;
 }) {
     const { style, states, capital } = serverData;
     const containerRef = useRef<HTMLDivElement | null>(null);
@@ -66,6 +74,17 @@ export default function IndiaMap({
         text: "#F7F4EA"
     };
 
+    function safeSetPaint(map: maplibregl.Map, layerId: string, prop: string, value: any) {
+        const layer = map.getLayer(layerId);
+        if (!layer) return;
+
+        try {
+            map.setPaintProperty(layerId, prop, value);
+        } catch {
+            console.log(`Skipping invalid paint property ${prop} for layer ${layerId}`)
+        }
+    }
+
     function applyLayerColors(map: maplibregl.Map, isDark: boolean) {
         const C = isDark ? DARK_COLORS : LIGHT_COLORS;
 
@@ -79,22 +98,15 @@ export default function IndiaMap({
         const stateslayer = map.getLayer("states");
 
         if (stateslayer && stateslayer.type === "fill") {
-            try {
-                map.setPaintProperty("states", "line-color", C.fill);
-                map.setPaintProperty("states", "fill-opacity", C.fillOpacity);
-            } catch (err) {
-                console.warn("could update paint property for states", err);
-            }
+            safeSetPaint(map, "states", "fill-color", C.fill);
+            safeSetPaint(map, "states", "fill-opacity", C.fillOpacity);
+            safeSetPaint(map, "states", "fill-outline-color", C.fill);
         }
 
-        if (map.getLayer("state-borders")) {
-            map.setPaintProperty("state-borders", "line-color", C.border);
-        }
+        safeSetPaint(map, "state-borders", "line-color", C.border);
+        safeSetPaint(map, "highlight", "line-color", C.highlight);
 
-        if (map.getLayer("highlight")) {
-            map.setPaintProperty("highlight", "line-color", C.highlight);
-        }
-        const labellayer = map.getStyle().layers.find(
+        const labellayer = map.getStyle().layers?.find(
             (layer: any) =>
                 layer.type === "symbol" &&
                 layer.layout && layer.layout["text-field"]
@@ -103,7 +115,7 @@ export default function IndiaMap({
         // console.log("Found lable layer", labellayer?.id);
 
         if (labellayer && map.getLayer(labellayer.id)) {
-            map.setPaintProperty(labellayer.id, "text-color", C.text);
+            safeSetPaint(map, labellayer.id, "text-color", C.text);
             // console.log("Applied text color:", C.text);
         }
     }
@@ -359,7 +371,7 @@ export default function IndiaMap({
                     "text-max-width": 8,
                     "text-writing-mode": ["horizontal", "vertical"],
                     "text-allow-overlap": false,
-                    "text-font": ["Open Sans Bold"],
+                    // "text-font": ["sans-serif"],
                 },
                 paint: {
                     "text-color": ["case", ["boolean", ["get", "darkMode"], false],
@@ -478,6 +490,7 @@ export default function IndiaMap({
     // }
 
     useEffect(() => {
+        
         if (!containerRef.current) return;
 
         const isDark = document.documentElement.classList.contains("dark");
@@ -496,32 +509,52 @@ export default function IndiaMap({
         let map: maplibregl.Map;
 
         (async () => {
-            const lightStyle = style;
+            let baseStyle;
+
+            if (isDark) {
+                const res = await fetch("https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json");
+                baseStyle = await res.json();
+                delete baseStyle.glyphs;
+            } else {
+                baseStyle = await loadBlueStyle();
+            }
 
             map = new maplibregl.Map({
                 container: containerRef.current!,
-                style: isDark
-                    ? "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json"
-                    : lightStyle,
+                style: baseStyle,
                 center: [78.9629, 22.5937],
-                zoom: 3.8
+                zoom: 3.8,
             });
 
             mapRef.current = map;
 
             map.on("load", () => {
-                // addCountries(map);
+                console.log("MAP ON LOAD FIRED");
+
                 addIndiaLayers(map, onStateClick);
                 applyLayerColors(map, isDark);
+
+                map.once("idle", () => {
+                    console.log("MAP IDLE FIRED — FULLY LOADED");
+                    onMapLoaded?.();
+                });
             });
+
         })();
 
         const observer = new MutationObserver(async () => {
             const dark = document.documentElement.classList.contains("dark");
 
-            const newStyle = dark
-                ? "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json"
-                : await loadBlueStyle();
+            let newStyle;
+            if (dark) {
+
+                const res = await fetch("https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json");
+                newStyle = await res.json();
+
+                delete newStyle.glyphs;
+            } else {
+                newStyle = await loadBlueStyle();
+            }
 
             map.setStyle(newStyle);
 

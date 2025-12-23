@@ -1,0 +1,150 @@
+{
+  "year": 2024,
+  "states": [
+    {
+      "state": "Ladakh",
+      "birth_rate": 16.5,
+      "death_rate": 6.7
+    },
+    {
+      "state": "Orissa",
+      "birth_rate": 12.4,
+      "death_rate": 5.3
+    },
+    {
+      "state": "Uttaranchal",
+      "birth_rate": 11.4,
+      "death_rate": 3.2
+    },
+    {
+      "state": "Delhi",
+      "birth_rate": 15.2,
+      "death_rate": 6.8
+    },
+    {
+      "state": "Arunachal Pradesh",
+      "birth_rate": 15.8,
+      "death_rate": 6.7
+    },
+    {
+      "state": "Andhra Pradesh",
+      "birth_rate": 14.2,
+      "death_rate": 7.4
+    },
+    {
+      "state": "Assam",
+      "birth_rate": 17.7,
+      "death_rate": 4.3
+    },
+    {
+      "state": "Bihar",
+      "birth_rate": 18.3,
+      "death_rate": 5.3
+    },
+    {
+      "state": "Chhattisgarh",
+      "birth_rate": 15.8,
+      "death_rate": 5.9
+    },
+    {
+      "state": "Goa",
+      "birth_rate": 12.6,
+      "death_rate": 6.5
+    },
+    {
+      "state": "Gujarat",
+      "birth_rate": 16.6,
+      "death_rate": 6.9
+    },
+    {
+      "state": "Haryana",
+      "birth_rate": 16.5,
+      "death_rate": 8.2
+    },
+    {
+      "state": "Himachal Pradesh",
+      "birth_rate": 12.8,
+      "death_rate": 2.8
+    },
+    {
+      "state": "Jharkhand",
+      "birth_rate": 19.6,
+      "death_rate": 7.7
+    },
+    {
+      "state": "Karnataka",
+      "birth_rate": 13.6,
+      "death_rate": 7.1
+    },
+    {
+      "state": "Kerala",
+      "birth_rate": 13.6,
+      "death_rate": 6.6
+    },
+    {
+      "state": "Madhya Pradesh",
+      "birth_rate": 14.8,
+      "death_rate": 8.5
+    },
+    {
+      "state": "Maharashtra",
+      "birth_rate": 15.2,
+      "death_rate": 6.8
+    },
+    {
+      "state": "Manipur",
+      "birth_rate": 13.2,
+      "death_rate": 6.3
+    },
+    {
+      "state": "Meghalaya",
+      "birth_rate": 13.5,
+      "death_rate": 4.7
+    },
+    {
+      "state": "Mizoram",
+      "birth_rate": 13.8,
+      "death_rate": 8.6
+    },
+    {
+      "state": "Nagaland",
+      "birth_rate": 17.5,
+      "death_rate": 9.8
+    },
+    {
+      "state": "Punjab",
+      "birth_rate": 18.3,
+      "death_rate": 9.6
+    },
+    {
+      "state": "Rajasthan",
+      "birth_rate": 13.8,
+      "death_rate": 6.8
+    },
+    {
+      "state": "Sikkim",
+      "birth_rate": 15.1,
+      "death_rate": 7.8
+    },
+    {
+      "state": "Tamil Nadu",
+      "birth_rate": 12.1,
+      "death_rate": 7.6
+    },
+    {
+      "state": "Tripura",
+      "birth_rate": 16.3,
+      "death_rate": 8.1
+    },
+    {
+      "state": "Uttar Pradesh",
+      "birth_rate": 12.6,
+      "death_rate": 8.3
+    },
+    {
+      "state": "West Bengal",
+      "birth_rate": 14.2,
+      "death_rate": 7.4
+    }
+  ]
+}

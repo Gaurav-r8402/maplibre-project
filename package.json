@@ -12,6 +12,7 @@
     "@auth/prisma-adapter": "^2.11.1",
     "@mapbox/geojson-extent": "github:mapbox/geojson-extent",
     "@prisma/client": "^5.22.0",
+    "@turf/centroid": "^7.3.1",
     "@turf/turf": "^7.3.1",
     "bcrypt": "^6.0.0",
     "class-variance-authority": "^0.7.1",
